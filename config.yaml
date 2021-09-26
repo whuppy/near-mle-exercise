@@ -1,0 +1,15 @@
+# Near.com MLE exercise
+near:
+        train_filename: 'train.tsv'
+        test_filename: 'test.tsv'
+
+# S3 bucket: get from S3_BUCKET env var
+
+# AWS auth: Get from AWS_KEY_ID, AWS_KEY_SECRET, and AWS_REGION env vars.
+
+# log files
+log:
+        encoded: 'encoded.log'
+        ignored: 'ignored.log'
+        error:   'error.log'
+

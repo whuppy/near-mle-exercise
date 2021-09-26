@@ -1,0 +1,66 @@
+To set up the machine, in this case an Amazon Linux (RH/Fedora/CentOS) instance:
+sudo yum install python3
+sudo yum install python3-pip
+sudo yum install git
+
+Use "git config --list" to see if you're logged in.
+Use "git config --global user.name 'whuppy' " and 
+"git config --global user.email "github@schmelzer.fastmail.fm" if not.
+Better yet just set up git account info in ~/.gitconfig:
+[user]
+        name = whuppy
+        email = github@schmelzer.fastmail.fm
+Mode 664 is fine.
+
+Then make sure virtualenv and virtualenvwrapper are also on board:
+pip3 install virtualenv
+pip3 install virtualenvwrapper
+Pretty sure you can do it in non-root userspace.
+
+Don't put aws credentials in .bashrc,
+make the file ~/.aws/credentials and put in:
+[default]
+aws_access_key_id = xxx
+aws_secret_access_key = xxx
+and ~/.aws/config and put in:
+[default]
+output = json
+region = us-east-2
+chmod 600 for both of them.
+
+Add the following python virtualenv stuff to ~/.bashrc:
+# the python version you want to use in virtualenv
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+# the folder for all your virtual environments
+export WORKON_HOME=$HOME/.virtualenvs
+# the path to your virtualenvwrapper.sh may be different
+#source /usr/local/bin/virtualenvwrapper.sh
+# If you install python virtualenv as non-root then it's at:
+source /home/ec2-user/.local/bin/virtualenvwrapper.sh
+
+Check out with git using SSH connection:
+git clone git@github.com:whuppy/near-mle-exercise
+Best to have set up your private key in ssh-agent.
+
+This won't work unless you've sourced those .bashrc lines above:
+cd near-mle-exercise/
+mkvirtualenv near-mle-exercise
+pip3 install -r requirements.txt
+
+N.B. The push command is now 
+git push base dev
+Base is the whuppy github
+Dev is the branch I work on
+So the command is pushing to the dev branch on the whuppy github repo.
+
+That command once again is . . .
+
+git push base dev
+
+. . . thank you and goodnight.
+
+Pretty-print JSON from the command line:
+python -m json.tool < metadata-108-117.json |less
+
+Use "git add --update" a/k/a "git add -u" to automatically add all updated files.
+
