@@ -1,7 +1,7 @@
+numpy
 pyyaml
 scipy
 numpy
 matplotlib
 pandas
 sklearn
-
