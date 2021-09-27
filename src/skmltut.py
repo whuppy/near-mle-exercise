@@ -1,7 +1,9 @@
 # Load libraries
 import sys
 import datetime
-import numpy
+import numpy as np
+import pandas as pd
+
 from pandas import read_csv
 from pandas.plotting import scatter_matrix
 from matplotlib import pyplot
@@ -18,6 +20,21 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.naive_bayes import GaussianNB
 from sklearn.svm import SVC
 
+# Load dataset
+#url = "https://raw.githubusercontent.com/jbrownlee/Datasets/master/iris.csv"
+#names = ['sepal-length', 'sepal-width', 'petal-length', 'petal-width', 'class']
+#dataset = read_csv(url, names=names)
+#print(dataset.head())
+#ary = dataset.values
+#print(ary)
+#X = ary[:,0:4]
+#print(X)
+#y = ary[:,4]
+#print(y)
+#X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=1)
+#print(Y_train)
+#print(Y_validation)
+
 # Read in the training data:
 # brand   category        geo     info_heuristic  actuals observed
 # 25      10      825     1176.7644229082518      174     40
@@ -25,25 +42,37 @@ print(f'Reading training dataset {datetime.datetime.now().isoformat()} . . .')
 train_data = read_csv('train.tsv',sep='\t',header=0)
 print(train_data.head())
 print(train_data.shape)
-# Massage the training data so that 'actuals' is the last field.
-train_vals = numpy.array([t[numpy.r_[0:4,5,4]] for t in train_data.values])
+train_vals = train_data.values
 #print(train_vals[:10])
 
 # Split the training set into X (inputs) and y (result):
-X = train_vals[:,0:5]
+X = train_vals[:,np.r_[0:4,5]]
 y = train_vals[:,5]
+print(X)
+print(y)
 # Now split into training and validation sets:
 print(f'Splitting training dataset into training and validation {datetime.datetime.now().isoformat()} . . .')
 X_train, X_validation, Y_train, Y_validation = train_test_split(X, y, test_size=0.20, random_state=1)
+print(Y_train)
+print(Y_validation)
+
+sys.exit(1)
+
+print('Building SVC model . . .')
+model = SVC(gamma='auto')
+model.fit(X_train, Y_train)
+predictions = model.predict(X_validation)
+
+
 
 # Spot Check Algorithms
 models = []
-models.append(('LR', LogisticRegression(solver='liblinear', multi_class='ovr')))
+models.append(('SVM', SVC(gamma='auto')))
 models.append(('LDA', LinearDiscriminantAnalysis()))
 models.append(('KNN', KNeighborsClassifier()))
 models.append(('CART', DecisionTreeClassifier()))
 models.append(('NB', GaussianNB()))
-models.append(('SVM', SVC(gamma='auto')))
+models.append(('LR', LogisticRegression(solver='liblinear', multi_class='ovr')))
 
 # evaluate each model in turn
 results = []
