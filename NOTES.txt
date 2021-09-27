@@ -64,3 +64,7 @@ python -m json.tool < metadata-108-117.json |less
 
 Use "git add --update" a/k/a "git add -u" to automatically add all updated files.
 
+"Machine learning algorithms and deep learning neural networks require that input and output variables are numbers. This means that categorical data must be encoded to numbers before we can use it to fit and evaluate a model."
+- Therefore, since we're given the categories as numbers, then don't sweat it.
+
+"For GPU usage all these libraries use NVIDIA CUDA which is also included and preconfigured, As of now the most commonly used combination is Keras on top of Tensorflow (not Tensorflow 2) on top of CUDA."
