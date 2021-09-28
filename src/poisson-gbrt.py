@@ -90,9 +90,9 @@ print(f'Dumped model to poisson-gbrt-model.sav {datetime.datetime.now().isoforma
 print(f'Generating predictions from test data {datetime.datetime.now().isoformat()} . . .')
 y_preds = poisson_gbrt.predict(test_data)
 print(y_preds.shape, y_preds.min(), y_preds.mean(), y_preds.max())
-with open('y-predictions.pickle', 'wb') as f:
-        pickle.dump(y_preds, f)
-print(f'Pickled y-predictions from test set {datetime.datetime.now().isoformat()}.')
+test_data['yhat'] = y_preds
+test_data.to_csv('predictions.tsv',sep='\t',index=False)
+print(f'Wrote predictions to predictions.tsv{datetime.datetime.now().isoformat()}.')
 
 print(f'Done {datetime.datetime.now().isoformat()}.')
 
