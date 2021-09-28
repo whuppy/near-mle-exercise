@@ -1,7 +1,9 @@
 import sys
 import datetime
+import joblib
 import numpy as np
 import pandas as pd
+import pickle
 from sklearn import preprocessing
 from sklearn.compose import ColumnTransformer
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
@@ -82,8 +84,15 @@ poisson_gbrt = Pipeline([
 ])
 print(f'Fitting entire train_data to Poisson GBRT {datetime.datetime.now().isoformat()} . . .')
 poisson_gbrt.fit(train_data, train_data["actuals"], regressor__sample_weight=train_data["info_heuristic"])
+joblib.dump(poisson_gbrt,'poisson-gbrt-model.sav')
+print(f'Dumped model to poisson-gbrt-model.sav {datetime.datetime.now().isoformat()}.')
+
 print(f'Generating predictions from test data {datetime.datetime.now().isoformat()} . . .')
 y_preds = poisson_gbrt.predict(test_data)
 print(y_preds.shape, y_preds.min(), y_preds.mean(), y_preds.max())
+with open('y-predictions.pickle', 'wb') as f:
+        pickle.dump(y_preds, f)
+print(f'Pickled y-predictions from test set {datetime.datetime.now().isoformat()}.')
+
 print(f'Done {datetime.datetime.now().isoformat()}.')
 

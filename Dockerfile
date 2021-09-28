@@ -5,4 +5,4 @@ ADD . /app
 # You may need to install other dependencies
 
 RUN pip install -r requirements.txt
-CMD ["python", "-u", "src/update.py"]
+CMD ["python", "-u", "src/poisson-gbrt.py"]
